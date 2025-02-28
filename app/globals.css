@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+
+body {
+  color: #402f14;
+  background: 	#282b30;
+  border-radius: 0.5rem;
+  text-align: center;
+  font: Georgia;
+}
+
+.parchment-input {
+  background: 	#dec494;
+  color: #402f14
+}
+
+.parchment-bg {
+  background: 	#f0e5ce;
+  color: #402f14;
+  border-color: #dec494;
+  border-radius: 0.5rem;
+}
+
+.wood-container {
+  background: #c89b48;
+  color: #402f14
+}
+
+.goldwood {
+  background: #a67d33;
+  color: whitesmoke
+}
+
+.darkwood {
+  background: #402f14;
+  color: whitesmoke
+}
+
+input, textarea, button, select {
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-color: #dec494;
+  background-color: #f0e5ce;
+  text-align: center;
+  color: #402f14
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
