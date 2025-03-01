@@ -9,14 +9,15 @@ import ActiveSection from "@/components/Active/ActiveSection";
 // import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ArmyContext } from "./context";
+import {useStorage} from "../components/Shared/hooks"
 
 
 
 export default function Home() {
+  const [saveData, setSaveData] = useStorage("warband")
   const [armyData, setArmyData] = useState<Army>(K_DEFAULT_ARMY_DATA);
   const [diceRoom, setDiceRoom] = useState("");
   const [discordUname, setDiscordUname] = useState("");
-  const [isAutoSave, setIsAutosave] = useState(false);
   const equipDataArr: any[] = require('../trenchcrusadedata/data/data/player/equipment.json')
   const equipDataObj = equipDataArr.reduce(
     (obj: any, item: any) => Object.assign(obj, { [item.id]: item }), {});
@@ -30,8 +31,12 @@ export default function Home() {
     (obj: any, item: any) => Object.assign(obj, { [item.id]: item }), {});
   const addonDataOptions = addonDataArr.map(eq => {return {value: eq.id, label: eq.name}})
 
+  const loadData = () => {
+    const parsed_save = JSON.parse(saveData)
+    setArmyData(parsed_save)
+  }
+
   const setArmyName = (val: string) => {
-    console.log(val)
     setArmyData({
       ...armyData,
       name: val,
@@ -44,18 +49,11 @@ export default function Home() {
     });
   };
 
-  useEffect(() => {return () => {
-    if(localStorage.getItem("armyData")){
-      setArmyData(JSON.parse(localStorage.getItem("armyData") as string))
-    } else {
-      setArmyData(K_DEFAULT_ARMY_DATA)
-    }
-    setIsAutosave(true)
-  }}, [])
-
   useEffect(() => {
-    if (isAutoSave) localStorage?.setItem("armyData", JSON.stringify(armyData));
-  }, [armyData, isAutoSave]);
+    if (armyData && armyData !== K_DEFAULT_ARMY_DATA){
+      setSaveData(JSON.stringify(armyData));
+    }
+  }, [armyData]);
 
   const downloadFile = () => {
     const fileName = armyData.name;
@@ -117,6 +115,11 @@ export default function Home() {
           id="file_input"
           type="file"
         ></input>
+         <button
+          value={armyData.name}
+          className="darkwood text-center text-md border-none p-2"
+          onClick={loadData}
+        >Load last</button>
         <input
           value={armyData.name}
           className="parchment-bg text-center text-2xl border-none w-11/12"
@@ -125,7 +128,7 @@ export default function Home() {
         />
         <input
           value={armyData.faction}
-          placeholder="Class"
+          placeholder="Faction"
           className="w-40 parchment-bg text-center text-md mx-2 border-none"
           onChange={(e) => setArmyFaction(e.target.value)}
         />

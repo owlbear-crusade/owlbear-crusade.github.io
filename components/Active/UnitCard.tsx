@@ -1,18 +1,17 @@
 import React from "react";
-import { Unit, Equip, Army } from "@/types/global";
+import { Unit } from "@/types/global";
 import { useContext, useMemo, useState } from "react";
-import { FaChevronRight, FaChevronDown, FaDiceD20 } from "react-icons/fa6";
-import { isDiceString, isNumString } from "../Shared/Functions";
 import { Transition } from "@headlessui/react";
 import { ArmyContext } from "@/app/context";
-import ConditionToggles from "../Shared/AbiList";
 import Select from "react-tailwindcss-select";
 import {
   Option,
   SelectValue,
 } from "react-tailwindcss-select/dist/components/type";
-import AttribCard from "./AttribCard";
-import AbiList from "../Shared/AbiList";
+import AbiList from "../Ability/AbiList";
+import EquipList from "../Equipment/EquipList";
+import AttribCard from "../Shared/AttribCard";
+import UpgradeList from "../Upgrade/UpgradeList";
 
 interface Props {
   index: number;
@@ -21,11 +20,10 @@ export default function UnitCard({ index }: Props) {
   const { armyData, setArmyData, modelsDataOptions, modelsDataObj, equipDataObj, addonDataObj } =
     useContext(ArmyContext);
   const unit: Unit = armyData.units[index];
-  const [isAvail, setIsAvail] = useState(true);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const unitEquips = useMemo(() => {
-    return armyData.equips.filter((eq) => (eq.belongsTo = index));
+    return armyData.equips.filter((eq) => eq.belongsTo == index);
   }, [armyData.equips, index]);
 
   const unitAbilities = useMemo(() => {
@@ -67,6 +65,42 @@ export default function UnitCard({ index }: Props) {
     return armour
   };
 
+  const unitUpgrades = useMemo(() => unit.upgrades.map(up => {return {id: up, name: addonDataObj[up].name}}), [unit, armyData])
+
+  const removeUnit = () => {
+    const updatedArmyUnits = [...armyData.units]
+    updatedArmyUnits.splice(index, 1)
+    const updatedArmyEquipments = [...armyData.equips].filter(eq => eq.belongsTo !== index).map(eq=> {
+      if (eq.belongsTo === undefined) return eq
+      if(eq.belongsTo < index) return eq
+      else return {...eq, belongsTo: eq.belongsTo + 1}
+    })
+    setArmyData({
+      ...armyData,
+      units: [...updatedArmyUnits],
+      equips: [...updatedArmyEquipments]
+    })
+  }
+
+  const addUpgrade = (upgrade: string) => {
+    const updatedArmyUnits = [...armyData.units]
+    updatedArmyUnits[index].upgrades = [...updatedArmyUnits[index].upgrades, upgrade]
+    setArmyData({
+      ...armyData,
+      units: [...updatedArmyUnits]
+    })
+  }
+
+  const removeUpgrade = (upgrade: string) => {
+    const updatedArmyUnits = [...armyData.units]
+    let upgrades = updatedArmyUnits[index].upgrades
+    upgrades = [...upgrades.splice(upgrades.indexOf(upgrade), 1)]
+    setArmyData({
+      ...armyData,
+      units: [...updatedArmyUnits]
+    })
+  }
+
   return (
     <div
       onMouseOver={() => setShowTooltip(true)}
@@ -74,18 +108,13 @@ export default function UnitCard({ index }: Props) {
       className={`group m-4 w-96`}
     >
       <div
-        className={`my-auto w-96 relative flex flex-col text-center px-2 rounded-lg border py-2 transition-colors hover:border-neutral-700 ${
-          isAvail ? "parchment-bg" : "goldwood"
-        }`}
+        className={`my-auto w-96 relative flex flex-col text-center px-2 rounded-lg border py-2 transition-colors hover:border-neutral-700 parchment-bg`}
       >
         <div className="mx-1 text-left flex">
-          {/* {showDetail ? 
-            <FaChevronDown className="py-0 mb-0" onClick={() => setShowDetail(!showDetail)}/> 
-            : <FaChevronRight className="py-0 mb-0" data-fa-transform="down-4" onClick={() => setShowDetail(!showDetail)} />} */}
           <input
             value={unit.name}
             className="parchment-bg text-center text-2xl border-none w-11/12 grid col-span-1"
-            placeholder="Warband Name"
+            placeholder="Unit Name"
             onChange={(e) => setUnitName(e.target.value)}
           />
         </div>
@@ -101,10 +130,10 @@ export default function UnitCard({ index }: Props) {
 
         <Transition
           show={showTooltip}
-          enter="transition ease-in-out duration-500 transform"
+          enter="transition ease-in-out duration-300 transform"
           enterFrom="opacity-0 -translate-y-12"
           enterTo="opacity-100 translate-y-0"
-          leave="transition ease duration-300 transform"
+          leave="transition ease duration-100 transform"
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-12"
         >
@@ -114,7 +143,10 @@ export default function UnitCard({ index }: Props) {
               <AttribCard title="Melee" value={getUnitMelee()} />
               <AttribCard title="Armor" value={getUnitArmour()} />
             </div>
+            <EquipList arr={unitEquips} unitIndex={index}/>
+            <UpgradeList arr={unitUpgrades} addUpgrade={addUpgrade} removeUpgrade={removeUpgrade}/>
             <AbiList title="ABILITIES" arr={unitAbilities}/>
+            <button className="mx-1 darkwood h-8 text-sm text-center rounded-md my-1 w-60" onClick={removeUnit}>Delete</button>
           </div>
         </Transition>
       </div>

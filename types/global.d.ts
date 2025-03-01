@@ -24,7 +24,8 @@ export interface Equip {
   name: string
   price: number
   priceType: "ducat" | "glory"
-  belongsTo?: number 
+  belongsTo?: number
+  index?: number
 }
 
 export interface RawTag {

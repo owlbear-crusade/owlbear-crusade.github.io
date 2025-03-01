@@ -8,11 +8,11 @@ import { ArmyContext } from "@/app/context";
 export default function ActiveSection(){
   const {armyData, setArmyData} = useContext(ArmyContext)
 
-  const addPower = () => {
-    console.log(armyData.units)
+  const addUnit = () => {
+    const updatedArmy = {...armyData}
     setArmyData({
-      ...armyData,
-      units: [...armyData.units, {...K_DEFAULT_UNIT_DATA}]
+      ...updatedArmy,
+      units: [...updatedArmy.units, {...K_DEFAULT_UNIT_DATA}]
     })
   }
 
@@ -23,7 +23,7 @@ export default function ActiveSection(){
           <UnitCard index={index} key={index} />
         ))}
       </div>
-      <button className="darkwood p-2 rounded-md" onClick={addPower}> Add Power </button>
+      <button className="darkwood p-2 rounded-md" onClick={addUnit}> Add Unit </button>
     </CollapsibleSection>
   )
 }

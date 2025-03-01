@@ -4,7 +4,7 @@
     "manifest_version": 1,
     "action": {
       "title": "Owlbear Crusade",
-      "icon": "/next.svg",
+      "icon": "/crusade.svg",
       "popover": "/",
       "height": 600,
       "width": 400

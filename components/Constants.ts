@@ -7,11 +7,11 @@ export const K_DEFAULT_EQUIP: Equip = {
   name: "jezzail",
   price: 0,
   priceType: "ducat",
-  belongsTo: 1
+  belongsTo: 0
 }
 export const K_DEFAULT_UNIT_DATA: Unit = {
-  model: "md_azebs",
-  name: "azeb",
+  model: "md_dragonspeasant",
+  name: "",
   isElite: false,
   isActive: true,
   upgrades: [],
@@ -23,6 +23,6 @@ export const K_DEFAULT_ARMY_DATA: Army = {
   name: "",
   faction: "",
   glory: 0,
-  units: [K_DEFAULT_UNIT_DATA],
+  units: [],
   equips: [],
 }

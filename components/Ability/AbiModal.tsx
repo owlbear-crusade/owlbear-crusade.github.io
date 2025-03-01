@@ -1,7 +1,7 @@
 import React from "react";
 import { Dispatch, SetStateAction, useContext, useMemo } from "react"
-import DialogDefault from "./Dialog";
-import { isNumString } from "./Functions";
+import DialogDefault from "../Shared/Dialog";
+import { getDesc } from "../Shared/Functions";
 interface Props {
   ability: any
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -10,19 +10,7 @@ interface Props {
 
 
 export default function AbiModal({ability, setIsOpen, isOpen}: Props) {
-  const desc = useMemo(() => {
-    let string = ""
-    ability.description.forEach((desc:any) => {
-      string += desc.content
-      string += "\n"
-      if (desc.subcontent) {
-        desc.subcontent.forEach((subc:any) => {
-          string += subc.content
-        })
-      }
-    });
-    return string
-  }, [ability])
+  const desc = getDesc(ability.description)
 
   return (
     <>

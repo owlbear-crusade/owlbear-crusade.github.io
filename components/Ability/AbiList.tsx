@@ -7,17 +7,16 @@ const abiList = React.forwardRef(({arr, title, onClick}: any, forwardedRef) => {
   const [abi, setAbi] = useState({description: []})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const onClickAbi = (item: any) => {
-    setAbi(item)
-    console.log(item)
     setIsModalOpen(true)
   }
 
   return (
     <div
       ref={forwardedRef as LegacyRef<HTMLDivElement>}
+      className="my-2"
     >
       <div className="font-bold"> {title} </div>
-      <div className="flex px-2 w-full flex-row flex-wrap">
+      <div className="flex px-2 w-full flex-row flex-wrap my-2">
         {
           arr.map((item: any, index: number) => {return(
             <div 
