@@ -12,12 +12,13 @@ import AbiList from "../Ability/AbiList";
 import EquipList from "../Equipment/EquipList";
 import AttribCard from "../Shared/AttribCard";
 import UpgradeList from "../Upgrade/UpgradeList";
+import { FaChevronRight, FaChevronDown } from "react-icons/fa6";
 
 interface Props {
   index: number;
 }
 export default function UnitCard({ index }: Props) {
-  const { armyData, setArmyData, modelsDataOptions, modelsDataObj, equipDataObj, addonDataObj } =
+  const { armyData, setArmyData, modelsDataOptions, modelsDataObj, equipDataObj, upgradeDataObj, addonDataObj} =
     useContext(ArmyContext);
   const unit: Unit = armyData.units[index];
   const [showTooltip, setShowTooltip] = useState(false);
@@ -65,7 +66,7 @@ export default function UnitCard({ index }: Props) {
     return armour
   };
 
-  const unitUpgrades = useMemo(() => unit.upgrades.map(up => {return {id: up, name: addonDataObj[up].name}}), [unit, armyData])
+  const unitUpgrades = useMemo(() => unit.upgrades.map(up => {return {id: up, name: upgradeDataObj[up].name}}), [unit, armyData])
 
   const removeUnit = () => {
     const updatedArmyUnits = [...armyData.units]
@@ -103,20 +104,19 @@ export default function UnitCard({ index }: Props) {
 
   return (
     <div
-      onMouseOver={() => setShowTooltip(true)}
-      onMouseOut={() => setShowTooltip(false)}
-      className={`group m-4 w-96`}
+      className={`group m-4 w-72`}
     >
       <div
-        className={`my-auto w-96 relative flex flex-col text-center px-2 rounded-lg border py-2 transition-colors hover:border-neutral-700 parchment-bg`}
+        className={`my-auto w-72 relative flex flex-col text-center px-2 rounded-lg border py-2 transition-colors hover:border-neutral-700 parchment-bg`}
       >
-        <div className="mx-1 text-left flex">
+        <div className="mx-1 text-left flex justify-center items-center">
           <input
             value={unit.name}
-            className="parchment-bg text-center text-2xl border-none w-11/12 grid col-span-1"
+            className="parchment-bg text-center text-2xl border-none w-11/12 grid col-span-1 relative"
             placeholder="Unit Name"
             onChange={(e) => setUnitName(e.target.value)}
           />
+          <button className="absolute right-0 parchment-bg mx-2 my-auto border-none" onClick={() => setShowTooltip(!showTooltip)}>{showTooltip ? <FaChevronDown className="fa-3xl"/> : <FaChevronRight className="fa-3xl"/>}</button>
         </div>
         <div className="mx-1 text-center flex my-1">
           <Select

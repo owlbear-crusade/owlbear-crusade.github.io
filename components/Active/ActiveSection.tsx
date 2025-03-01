@@ -18,7 +18,7 @@ export default function ActiveSection(){
 
   return (
     <CollapsibleSection headerTitle="Active Units" openDefault>
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap justify-center px-10">
         {armyData.units.map((_, index: number) => (
           <UnitCard index={index} key={index} />
         ))}

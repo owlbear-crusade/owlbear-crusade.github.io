@@ -18,13 +18,13 @@ export default function UpgradeModal({
   upgrade,
 }: Props) {
   const {
-    addonDataObj,
+    upgradeDataObj,
   } = useContext(ArmyContext);
   const onClickRemoveUpgrade = () => {
     removeUpgrade(upgrade.id)
     setIsOpen(false)
   }
-  const upgradeData = useMemo(() => addonDataObj[upgrade.id], [upgrade])
+  const upgradeData = useMemo(() => upgradeDataObj[upgrade.id], [upgrade])
 
   const desc = useMemo(() => {
     if (upgradeData?.description) {

@@ -26,6 +26,10 @@ export default function Home() {
   const modelsDataObj = modelsDataArr.reduce(
     (obj: any, item: any) => Object.assign(obj, { [item.id]: item }), {});
   const modelsDataOptions = modelsDataArr.map(eq => {return {value: eq.id, label: eq.name}})
+  const upgradeDataArr: any[] = require('../trenchcrusadedata/data/data/player/upgrades.json')
+  const upgradeDataObj = upgradeDataArr.reduce(
+    (obj: any, item: any) => Object.assign(obj, { [item.id]: item }), {});
+  const upgradeDataOptions = upgradeDataArr.map(eq => {return {value: eq.id, label: eq.name}})
   const addonDataArr: any[] = require('../trenchcrusadedata/data/data/player/addons.json')
   const addonDataObj = addonDataArr.reduce(
     (obj: any, item: any) => Object.assign(obj, { [item.id]: item }), {});
@@ -102,6 +106,9 @@ export default function Home() {
         modelsDataObj, 
         modelsDataArr, 
         modelsDataOptions,
+        upgradeDataObj, 
+        upgradeDataArr, 
+        upgradeDataOptions,
         addonDataObj, 
         addonDataArr, 
         addonDataOptions,

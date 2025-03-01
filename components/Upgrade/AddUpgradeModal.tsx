@@ -16,12 +16,12 @@ export default function AddUpgradeModal({
   addUpgrade,
 }: Props) {
   const {
-    addonDataOptions,
-    addonDataObj,
+    upgradeDataOptions,
+    upgradeDataObj,
   } = useContext(ArmyContext);
   const [upgradeData, setUpgradeData] = useState<any>({});
   const onChangeSelect = (opt: any) => {
-    setUpgradeData({ ...addonDataObj[opt.value] });
+    setUpgradeData({ ...upgradeDataObj[opt.value] });
   };
   const desc = useMemo(() => {
     if (upgradeData.description) {
@@ -39,9 +39,9 @@ export default function AddUpgradeModal({
         <div className="flex flex-col items-center w-96 parchment-bg p-2 mx-auto">
           <Select
             primaryColor="yellow"
-            value={addonDataOptions.find((opt: any) => opt.value == upgradeData.id)}
+            value={upgradeDataOptions.find((opt: any) => opt.value == upgradeData.id)}
             onChange={onChangeSelect}
-            options={addonDataOptions}
+            options={upgradeDataOptions}
             isSearchable={true}
           />
           <div className="my-2">

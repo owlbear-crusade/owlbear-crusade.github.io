@@ -7,6 +7,7 @@ const abiList = React.forwardRef(({arr, title, onClick}: any, forwardedRef) => {
   const [abi, setAbi] = useState({description: []})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const onClickAbi = (item: any) => {
+    setAbi(item)
     setIsModalOpen(true)
   }
 

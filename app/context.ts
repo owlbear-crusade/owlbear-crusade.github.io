@@ -15,6 +15,9 @@ export interface ArmyContextType {
   modelsDataObj: any;
   modelsDataArr: any;
   modelsDataOptions: any;
+  upgradeDataObj: any;
+  upgradeDataArr: any;
+  upgradeDataOptions: any;
   addonDataObj: any;
   addonDataArr: any;
   addonDataOptions: any;
@@ -32,6 +35,9 @@ export const ArmyContext = createContext<ArmyContextType>({
   modelsDataObj: {},
   modelsDataArr: [],
   modelsDataOptions: [],
+  upgradeDataObj: {},
+  upgradeDataArr: [],
+  upgradeDataOptions: [],
   addonDataObj: {},
   addonDataArr: [],
   addonDataOptions: [],
