@@ -1,15 +1,16 @@
-import React from "react";
+import React, { ReactElement } from "react";
+import { IconType } from "react-icons";
 
 interface Props {
-  title: string;
-  value: number
+  icon: ReactElement;
+  value: number | string
 }
-export default function AttribCard({title, value}: Props) {
+export default function AttribCard({icon, value}: Props) {
   return (
     <div
       className={`parchment-input rounded-md m-1 px-1 text-sm col-span-1 py-2`}
     >
-      <h2 className="text-xl font-semibold">{title}</h2>
+      {icon}
       {value}
     </div>
   );

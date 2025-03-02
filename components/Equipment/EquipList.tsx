@@ -1,18 +1,16 @@
 // import { CharContext } from "@/app/context";
 import React, { LegacyRef, useState } from "react";
-import StashModal from "./EquipModal";
 import AddEquipModal from "./AddEquipModal";
 import EquipModal from "./EquipModal";
-import { Equip } from "@/types/global";
-import { K_DEFAULT_EQUIP } from "../Constants";
+import { FaCirclePlus } from "react-icons/fa6";
 
 
-const EquipList = React.forwardRef(({arr, title, onClick, unitIndex}: any, forwardedRef) => {
-  const [eq, setEq] = useState<Equip>(K_DEFAULT_EQUIP)
+const EquipList = React.forwardRef(({arr, addEquip, removeEquip}: any, forwardedRef) => {
+  const [equip, setEquip] = useState<any>({})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isGetModalOpen, setIsGetModalOpen] = useState(false)
-  const onClickEq = (item: any) => {
-    setEq(item)
+  const onClickEquip = (item: any) => {
+    setEquip(item)
     setIsModalOpen(true)
   }
   const onClickGet = () => {
@@ -23,23 +21,22 @@ const EquipList = React.forwardRef(({arr, title, onClick, unitIndex}: any, forwa
     <div
       ref={forwardedRef as LegacyRef<HTMLDivElement>}
     >
-      <div className="font-bold"> EQUIPMENTS </div>
+      <div className="flex font-bold justify-center items-center"> <p className="my-auto inline mx-1">EQUIPS</p> <button className="border-none my-auto" onClick={onClickGet}> <FaCirclePlus /> </button> </div>
       <div className="flex px-2 w-full flex-row flex-wrap my-1">
         {
           arr.map((item: any, index: number) => {return(
             <div 
               key={index} 
               className={`parchment-input rounded-md cursor-pointer m-1 px-1 text-sm`} 
-              onClick={() => onClickEq(item)}
+              onClick={() => onClickEquip(item)}
             >
               {item.name ? item.name : "unnamed"}
             </div>
           )})
         }
       </div>
-      <button className="darkwood text-xs p-1 rounded-md my-1" onClick={onClickGet}> Add </button>
-      <AddEquipModal equipment={eq} isOpen={isGetModalOpen} setIsOpen={setIsGetModalOpen} unitIndex={unitIndex} />
-      <EquipModal equipment={eq} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <AddEquipModal isOpen={isGetModalOpen} setIsOpen={setIsGetModalOpen} addEquip={addEquip} />
+      <EquipModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} removeEquip={removeEquip} equip={equip} />
     </div>
   )
 })

@@ -5,8 +5,9 @@ export interface Army {
   name: string
   faction: string
   glory: number
+  ducats: number
   units: Unit[]
-  equips: Equip[]
+  stash: string[]
 }
 
 export interface Unit {
@@ -14,17 +15,10 @@ export interface Unit {
   name: string
   isElite: boolean
   isActive: boolean
+  equips: string[]
   upgrades: string[]
   skills: string[]
-  scars: string[]
-}
-
-export interface Equip {
-  code: string
-  name: string
-  price: number
-  priceType: "ducat" | "glory"
-  belongsTo?: number
+  injuries: string[]
   index?: number
 }
 

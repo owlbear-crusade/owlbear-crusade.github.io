@@ -21,6 +21,12 @@ export interface ArmyContextType {
   addonDataObj: any;
   addonDataArr: any;
   addonDataOptions: any;
+  skillDataObj: any;
+  skillDataArr: any;
+  skillDataOptions: any;
+  injuryDataObj: any;
+  injuryDataArr: any;
+  injuryDataOptions: any;
 }
 
 export const ArmyContext = createContext<ArmyContextType>({
@@ -41,5 +47,11 @@ export const ArmyContext = createContext<ArmyContextType>({
   addonDataObj: {},
   addonDataArr: [],
   addonDataOptions: [],
+  skillDataObj: {},
+  skillDataArr: [],
+  skillDataOptions: [],
+  injuryDataObj: {},
+  injuryDataArr: [],
+  injuryDataOptions: [],
   setDiscordUname: () => null,
 });

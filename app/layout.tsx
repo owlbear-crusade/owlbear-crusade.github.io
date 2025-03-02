@@ -6,8 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "4E Character Overview Inspector",
-  description: "Fuck brojek's charsheet",
+  title: "Owlbear Crusade",
 };
 
 export default function RootLayout({
@@ -17,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`parchment-bg h-screen ${inter.className}`}>{children}</body>
     </html>
   );
 }

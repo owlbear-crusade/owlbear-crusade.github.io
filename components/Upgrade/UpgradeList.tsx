@@ -1,7 +1,5 @@
 // import { CharContext } from "@/app/context";
 import React, { LegacyRef, useState } from "react";
-import { Equip } from "@/types/global";
-import { K_DEFAULT_EQUIP } from "../Constants";
 import AddUpgradeModal from "./AddUpgradeModal";
 import UpgradeModal from "./UpgradeModal";
 

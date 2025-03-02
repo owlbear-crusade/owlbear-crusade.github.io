@@ -1,62 +1,73 @@
 import React, { useMemo } from "react";
 import { Dispatch, SetStateAction, useContext, useState } from "react";
 import DialogDefault from "../Shared/Dialog";
-import { getDesc, isNumString } from "../Shared/Functions";
+import { getDesc } from "../Shared/Functions";
 import { ArmyContext } from "@/app/context";
-import Select from "react-tailwindcss-select";
 import AttribCard from "../Shared/AttribCard";
-import { Equip } from "@/types/global";
+import { GiChaingun, GiFist, GiHorizontalFlip } from "react-icons/gi";
 interface Props {
-  equipment: Equip;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   isOpen: boolean;
+  removeEquip: (id: string) => void;
+  equip: { name: string; id: string };
 }
 
 export default function EquipModal({
-  equipment,
   setIsOpen,
   isOpen,
+  removeEquip,
+  equip,
 }: Props) {
-  const {
-    armyData,
-    setArmyData,
-    equipDataObj,
-  } = useContext(ArmyContext);
-  const equipData = useMemo(() => equipDataObj[equipment.code], [equipment])
+  const { equipDataObj } = useContext(ArmyContext);
+  const onClickRemoveEquip = () => {
+    removeEquip(equip.id);
+    setIsOpen(false);
+  };
+  const equipData = useMemo(() => equipDataObj[equip.id], [equip]);
+
   const desc = useMemo(() => {
-    if (equipData.description) {
-      return getDesc(equipData.description);
+    if (equipData?.description) {
+      return getDesc(equipData?.description);
     }
   }, [equipData]);
 
-  const removeEquip = () => {
-    setArmyData({
-      ...armyData,
-      equips: [...armyData.equips.filter(e => e !== equipment)]
-    })
-    setIsOpen(false)
-  }
   return (
     <>
       <DialogDefault
         isOpen={isOpen}
         setOpen={setIsOpen}
-        headerTitle={equipment.name}
+        headerTitle={equip.name}
       >
-        <div className="flex flex-col items-center w-96 parchment-bg p-2 mx-auto">
-          {
-            equipData?.eventtags?.action ? 
+        <div className="flex w-96 parchment-bg px-1 mx-auto">
+          {equipData?.tags
+            ? equipData.tags.map((tag: any) => (
+                <div
+                  key={tag.tag_name}
+                  className={`darkwood rounded-md cursor-pointer m-1 p-1 text-sm`}
+                >
+                  {tag.tag_name ? tag.tag_name : "unnamed"}
+                </div>
+              ))
+            : null}
+        </div>
+        <div className="flex flex-col items-center w-96 parchment-bg px-1 mx-auto">
+          {equipData?.eventtags?.action ? (
             <div className="grid grid-cols-3 my-2">
-              <AttribCard title="Type" value={equipData.equip_type} />
-              <AttribCard title="Range" value={equipData.range} />
-              <AttribCard title="Mod" value={equipData.modifiers.join(", ")} />
-            </div> :
-            null
-          }
-          <div className="my-2">
-            {desc}
-          </div>
-          <button className="darkwood p-2 rounded-md" onClick={removeEquip}> Remove </button>
+              <AttribCard icon={<GiFist />} value={equipData.equip_type} />
+              <AttribCard icon={<GiHorizontalFlip />} value={equipData.range} />
+              <AttribCard
+                icon={<GiChaingun />}
+                value={equipData.modifiers.join(", ")}
+              />
+            </div>
+          ) : null}
+          {desc}
+          <button
+            className="darkwood p-2 rounded-md"
+            onClick={onClickRemoveEquip}
+          >
+            Remove
+          </button>
         </div>
       </DialogDefault>
     </>
